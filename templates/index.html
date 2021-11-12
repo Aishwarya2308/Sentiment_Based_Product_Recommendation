@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  
+</head>
+
+<body>
+ <div class="login">
+	<h1>Product Recommendation</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+    	<textarea id="txtarea" placeholder="Enter Name here" name="txtarea" rows="2" cols="50" class="input_field"></textarea><br>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <p>
+   <h1 style="color:#FF0000;font-size:30px;">{{ message }}</h1></p>
+   <br>
+   	<h1 style="color:#3333cc;font-size:30px;">Top 5 Recommended Products</h1>
+	{% for table in tables %}
+	{{table|safe}}
+	{% endfor %}
+
+ </div>
+
+
+</body>
+</html>
