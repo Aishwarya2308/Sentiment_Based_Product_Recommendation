@@ -8,16 +8,51 @@
   <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-  
+  <style>
+table {
+  align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+}
+tr:nth-child(even){background-color: #f2f2f2;}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+background-color: #04AA6D;
+color: white;
+cursor: pointer;
+padding: 8px 15px;
+border: none;
+font-size: 16px;
+}
+button:hover {
+  background-color: grey;
+  color: white;
+}
+
+</style>
 </head>
 
 <body>
- <div class="login">
-	<h1>Product Recommendation</h1>
+ <div class="login" align="center">
+	<h1 style="font-family:arial;">Sentiment Based Product Recommendation App</h1>
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
-    	<textarea id="txtarea" placeholder="Enter Name here" name="txtarea" rows="2" cols="50" class="input_field"></textarea><br>
+    	<textarea id="txtarea" placeholder="Enter User Name here" name="txtarea" rows="2" cols="50" class="input_field"></textarea><br>
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
 
@@ -25,11 +60,14 @@
    <p>
    <h1 style="color:#FF0000;font-size:30px;">{{ message }}</h1></p>
    <br>
-   	<h1 style="color:#3333cc;font-size:30px;">Top 5 Recommended Products</h1>
-	{% for table in tables %}
-	{{table|safe}}
-	{% endfor %}
-
+   	<h1 style="color:#00008B;font-size:30px;">Top 5 Recommended Products</h1>
+     <table>
+                {% for table in tables %}
+                <TR>
+                   <TD style="color:#00008B;font-size:15px;">{{table|safe}}</TD>
+                </TR>
+                {% endfor %}
+     </table>
  </div>
 
 
