@@ -53,6 +53,7 @@ button:hover {
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
     	<textarea id="txtarea" placeholder="Enter User Name here" name="txtarea" rows="2" cols="50" class="input_field"></textarea><br>
+        <br>
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
 
@@ -68,6 +69,7 @@ button:hover {
                 </TR>
                 {% endfor %}
      </table>
+     <marquee style="font-size:15px;">This app recommends top 5 products for a given user based on their previous reviews and ratings...</marquee>
  </div>
 
 
