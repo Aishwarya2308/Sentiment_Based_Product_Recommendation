@@ -15,6 +15,7 @@ warnings.filterwarnings('ignore')
 
 
 import pickle as pkl
+import numpy as np
 from nltk.tokenize import word_tokenize
 import xgboost
 
@@ -28,7 +29,7 @@ import xgboost
 # In[3]:
 
 
-xgb        = pkl.load(open('models/Xgboost.pkl','rb'))
+bestmodel        = pkl.load(open('models/bestmodel.pkl','rb'))
 tfidf      = pkl.load(open('models/tfidf.pkl','rb'))
 transform  = pkl.load(open('dataset/transform.pkl','rb'))
 user_recom = pkl.load(open('models/user_recommendation.pkl','rb'))
@@ -40,12 +41,16 @@ user_recom = pkl.load(open('models/user_recommendation.pkl','rb'))
 def sentiment(recom_prod):
     df = transform[transform.name.isin(recom_prod)]
     features = tfidf.transform(df['text'])
-    pred_data = xgb.predict(features)
+    pred_data = bestmodel.predict(features)
     predictions = [round(value) for value in pred_data]
     df['predicted'] = predictions
-    output_data = df[df['predicted']==1][['name', 'brand', 'categories']].drop_duplicates()[:5].reset_index(drop=True)
-    
-    return output_data
+    groupedDf = df.groupby(['name'])
+    product_class = groupedDf['predicted'].agg(mean_class=np.mean)
+    df = product_class.sort_values(by=['mean_class'], ascending=False)[:5]
+    df['name'] = df.index
+    data = df[['name']][:5].reset_index(drop=True)
+
+    return data
 
 
 # In[5]:
@@ -57,5 +62,5 @@ def recommendation(user_input):
         recom_data = user_recom.loc[user_input].sort_values(ascending=False)[0:20].index
     except:
         flag = False
-        recom_data = "User with username \"" + user_input + "\" not found, try another username"
+        recom_data = "User  \"" + user_input + "\" not found. Please enter a valid user"
     return flag, recom_data
